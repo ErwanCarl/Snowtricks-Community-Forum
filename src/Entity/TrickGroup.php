@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Entity\Snowtrick;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\TrickGroupRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickGroupRepository::class)]
+#[UniqueEntity('label', message : 'Ce groupe de figures existe déjà.')]
 class TrickGroup
 {
     #[ORM\Id]
@@ -18,7 +20,13 @@ class TrickGroup
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Unique]
+    #[Assert\NotBlank(message: 'Le nom du groupe doit être renseigné.')]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Le libellé du groupe doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le libellé du groupe ne peut excéder {{ limit }} caractères.',
+    )]
     private ?string $label = null;
 
     #[ORM\OneToMany(mappedBy: 'trickGroup', targetEntity: Snowtrick::class)]

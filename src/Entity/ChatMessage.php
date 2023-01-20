@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ChatMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChatMessageRepository::class)]
 class ChatMessage
@@ -15,10 +16,12 @@ class ChatMessage
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Le contenu ne doit pas être vide.')]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDate = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
+    private ?\DateTimeImmutable $creationDate;
 
     #[ORM\ManyToOne(inversedBy: 'chatMessages', targetEntity: Snowtrick::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -27,6 +30,11 @@ class ChatMessage
     #[ORM\ManyToOne(inversedBy: 'chatMessages', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    public function __construct()
+    {
+        $this->creationDate = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -45,12 +53,12 @@ class ChatMessage
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?\DateTimeImmutable
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    public function setCreationDate(\DateTimeImmutable $creationDate): self
     {
         $this->creationDate = $creationDate;
 

@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\SnowtrickRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SnowtrickRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SnowtrickRepository::class)]
+#[UniqueEntity('title', message : 'Le titre de la figure existe déjà en base de données.')]
+#[UniqueEntity('slug')]
 class Snowtrick
 {
     #[ORM\Id]
@@ -18,24 +21,33 @@ class Snowtrick
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Unique]
+    #[Assert\NotBlank(message: 'Le titre doit être renseigné.')]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Le titre doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le titre ne peut excéder {{ limit }} caractères.',
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $author = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Unique]
+    #[Assert\NotBlank]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Le contenu ne peut être vide.')]
     private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDate = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
+    private ?\DateTimeImmutable $creationDate;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $modificationDate = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $modificationDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'snowtricks', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -59,6 +71,7 @@ class Snowtrick
         $this->chatMessages = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->creationDate = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -114,24 +127,24 @@ class Snowtrick
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?\DateTimeImmutable
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    public function setCreationDate(\DateTimeImmutable $creationDate): self
     {
         $this->creationDate = $creationDate;
 
         return $this;
     }
 
-    public function getModificationDate(): ?\DateTimeInterface
+    public function getModificationDate(): ?\DateTimeImmutable
     {
         return $this->modificationDate;
     }
 
-    public function setModificationDate(?\DateTimeInterface $modificationDate): self
+    public function setModificationDate(?\DateTimeImmutable $modificationDate): self
     {
         $this->modificationDate = $modificationDate;
 
