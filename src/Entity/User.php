@@ -7,12 +7,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity('email', message : 'Le mail est déjà utilisé sur un autre compte utilisateur.')]
+#[UniqueEntity('mail', message : 'Le mail est déjà utilisé sur un autre compte utilisateur.')]
 #[UniqueEntity('accountKey')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +27,7 @@ class User
         min: 2,
         max: 50,
         minMessage: 'Le nom doit contenir au moins {{ limit }} caractères.',
-        maxMessage: 'Le nom ne peut excéder {{ limit }} caractères.',
+        maxMessage: 'Le nom ne peut excéder {{ limit }} caractères.'
     )]
     #[Assert\Regex(
         pattern: "/^([a-zA-Z']{2,50})$/",
@@ -39,20 +41,20 @@ class User
         min: 2,
         max: 50,
         minMessage: 'Le prénom doit contenir au moins {{ limit }} caractères.',
-        maxMessage: 'Le prénom ne peut excéder {{ limit }} caractères.',
+        maxMessage: 'Le prénom ne peut excéder {{ limit }} caractères.'
     )]
     #[Assert\Regex(
-        pattern: "/^([a-zA-Z' ]{2,50})$/",
+        pattern: "/^([a-zA-Z']{2,50})$/",
         message: 'Le prénom doit seulement contenir des lettres.'
     )]
     private ?string $nickname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message: 'Le mail doit être renseigné.')]
     #[Assert\Email(message: 'Le format de l\'email n\'est pas valide.',)]
     #[Assert\Length(
         max: 255,
-        maxMessage: 'L\'email ne peut excéder {{ limit }} caractères.',
+        maxMessage: 'L\'email ne peut excéder {{ limit }} caractères.'
     )]
     private ?string $mail = null;
 
@@ -62,7 +64,7 @@ class User
         min: 8,
         max: 255,
         minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-        maxMessage: 'Le mot de passe ne peut excéder {{ limit }} caractères.',
+        maxMessage: 'Le mot de passe ne peut excéder {{ limit }} caractères.'
     )]
     #[Assert\Regex(
         pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
@@ -75,17 +77,13 @@ class User
         maxSize: '1M',
         extensions: ['jpg','jpeg','png'],
         maxSizeMessage: 'L\'image ne doit pas excéder 1 Mo',
-        extensionsMessage: 'Le format n\'est pas valide, les formats autorisés sont JPG, JPEG et PNG.',
+        extensionsMessage: 'Le format n\'est pas valide, les formats autorisés sont JPG, JPEG et PNG.'
     )]
     private ?string $logo = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     #[Assert\NotBlank]
     private array $roles = [];
-
-    #[ORM\Column]
-    #[Assert\NotBlank]
-    private ?bool $validateAccount = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $accountKey = null;
@@ -96,6 +94,10 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ChatMessage::class, orphanRemoval: true)]
     private Collection $chatMessages;
 
+    #[ORM\Column(type: 'boolean')]
+    #[Assert\NotBlank]
+    private $isVerified = false;
+
 
     public function __construct()
     {
@@ -103,6 +105,21 @@ class User
         $this->chatMessages = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name .' '. $this->nickname;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->mail;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 
     public function getId(): ?int
     {
@@ -147,24 +164,16 @@ class User
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function isValidateAccount(): ?bool
-    {
-        return $this->validateAccount;
-    }
-
-    public function setValidateAccount(bool $validateAccount): self
-    {
-        $this->validateAccount = $validateAccount;
 
         return $this;
     }
@@ -261,6 +270,18 @@ class User
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

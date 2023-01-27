@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition d'une figure{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Edition d'une figure</h1>
+
+    {{ include('snowtrick/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('app_snowtrick_index') }}">Retourner sur la page d'accueil</a>
+
+    {{ include('snowtrick/_delete_form.html.twig') }}
+</div>
+{% endblock %}

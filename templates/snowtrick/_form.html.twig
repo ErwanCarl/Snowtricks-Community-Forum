@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.trickGroup) }}
+
+    <div id="trick_pictures" data-prototype="{{ include('snowtrick/_picture.html.twig', {form: form.pictures.vars.prototype})|e("html_attr") }}" data-index="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}">
+        {% for picture in form.pictures %}
+            {{ include('snowtrick/_picture.html.twig', {form: picture}) }}
+        {% endfor %}
+        {{ form_errors(form.pictures) }}
+        <button type="button" class="btn btn-primary btn-new" data-collection="#trick_pictures">Ajouter une image</button>
+    </div>
+
+    <div>
+        {{ form_errors(form) }}
+    </div>
+    <div class="form-button">
+        <button class="btn btn-success">{{ button_label|default('Créer la figure') }}</button>
+    </div>
+{{ form_end(form, {render_rest: false}) }}
+
+<script src="vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+	tinymce.init({
+		selector: '.content'
+		});
+</script>

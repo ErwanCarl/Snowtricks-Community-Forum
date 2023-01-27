@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil{% endblock %}
+
+{% block body %}
+
+    <div class="container home-bg">
+        <h1>Phrase d'accroche</h1>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row row-cols-5">
+            {% for snowtrick in snowtricks %}
+                <div class="col snowtrick-card">
+                    <div class="snowtrick-pic">
+                        <img src="..." class="card-img-top" alt="...">
+                    </div>
+                    <div class="snowtrick-info">
+                        <div>
+                            <a href="{{ path('app_snowtrick_show', {'id': snowtrick.id}) }}"><i class="bi bi-search"></i>{{ snowtrick.title }}</a>
+                        </div>
+                        <div>
+                            <a href="{{ path('app_snowtrick_edit', {'id': snowtrick.id}) }}"><i class="bi bi-pencil btn btn-warning"></i></a>
+                        </div>
+                        <div>
+                            <form method="post" action="{{ path('app_snowtrick_delete', {'id': snowtrick.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer la figure ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ snowtrick.id) }}">
+                                <button class="btn btn-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div>
+                    <p>Aucune figure n'existe encore.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="creation-link">
+        <a href="{{ path('app_snowtrick_new') }}" class="btn btn-primary">Création</a>
+    </div>
+{% endblock %}

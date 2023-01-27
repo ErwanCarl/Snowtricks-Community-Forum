@@ -25,7 +25,7 @@ class TrickGroup
         min: 2,
         max: 255,
         minMessage: 'Le libellé du groupe doit contenir au moins {{ limit }} caractères.',
-        maxMessage: 'Le libellé du groupe ne peut excéder {{ limit }} caractères.',
+        maxMessage: 'Le libellé du groupe ne peut excéder {{ limit }} caractères.'
     )]
     private ?string $label = null;
 

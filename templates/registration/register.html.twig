@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création de compte utilisateur{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="container">
+        <h1>Création de compte utilisateur</h1>
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.nickname) }}
+            {{ form_row(registrationForm.name) }}
+            {{ form_row(registrationForm.mail) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Mot de passe'
+            }) }}
+
+            <div class="form-button">
+                <button type="submit" class="btn btn-success">Créer le compte</button>
+            </div>
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

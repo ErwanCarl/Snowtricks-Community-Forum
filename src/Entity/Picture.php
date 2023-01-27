@@ -20,15 +20,7 @@ class Picture
     #[Assert\NotBlank]
     private ?string $fileName = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\File(
-        maxSize: '1M',
-        extensions: ['jpg','jpeg','png'],
-        maxSizeMessage: 'L\'image ne doit pas excéder 1 Mo',
-        extensionsMessage: 'Le format n\'est pas valide, les formats autorisés sont JPG, JPEG et PNG.',
-    )]
-    private ?string $file = null;
+    private $file = null;
 
     #[ORM\ManyToOne(inversedBy: 'pictures', targetEntity: Snowtrick::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -51,12 +43,12 @@ class Picture
         return $this;
     }
 
-    public function getFile(): ?string
+    public function getFile()
     {
         return $this->file;
     }
 
-    public function setFile(string $file): self
+    public function setFile($file): self
     {
         $this->file = $file;
 

@@ -26,16 +26,14 @@ class Snowtrick
         min: 2,
         max: 50,
         minMessage: 'Le titre doit contenir au moins {{ limit }} caractères.',
-        maxMessage: 'Le titre ne peut excéder {{ limit }} caractères.',
+        maxMessage: 'Le titre ne peut excéder {{ limit }} caractères.'
     )]
     private ?string $title = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
     private ?string $author = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -58,12 +56,14 @@ class Snowtrick
     private ?TrickGroup $trickGroup = null;
 
     #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: ChatMessage::class, orphanRemoval: true)]
+    #[Assert\Valid()]
     private Collection $chatMessages;
 
-    #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: Video::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[Assert\Valid()]
     private Collection $videos;
 
-    #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: Picture::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: Picture::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $pictures;
 
     public function __construct()
@@ -99,7 +99,6 @@ class Snowtrick
     public function setAuthor(string $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 

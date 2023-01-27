@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle figure{% endblock %}
+
+{% block body %}
+
+<div class ="container snowtrick-new">
+
+    <a href="{{ path('app_snowtrick_index') }}" class="btn btn-secondary ">Retourner sur la page d'accueil</a>
+
+    <h1>Création d'une nouvelle figure</h1>
+
+    {{ include('snowtrick/_form.html.twig') }}
+
+</div>
+
+{% endblock %}
