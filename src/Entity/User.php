@@ -58,7 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $mail = null;
 
-    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Le mot de passe doit être renseigné.')]
     #[Assert\Length(
         min: 8,
@@ -68,7 +67,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[Assert\Regex(
         pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-        message: 'Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule et 1 caractère spécial.'
+        message: 'Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.'
+    )]
+    private ?string $plainPassword = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 8,
+        max: 255,
+        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le mot de passe ne peut excéder {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+        message: 'Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.'
     )]
     private ?string $password = null;
 
@@ -82,7 +94,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $logo = null;
 
     #[ORM\Column(type: 'json')]
-    #[Assert\NotBlank]
     private array $roles = [];
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -95,7 +106,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $chatMessages;
 
     #[ORM\Column(type: 'boolean')]
-    #[Assert\NotBlank]
     private $isVerified = false;
 
 
@@ -258,6 +268,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }

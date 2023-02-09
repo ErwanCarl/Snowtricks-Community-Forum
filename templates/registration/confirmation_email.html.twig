@@ -1,11 +1,9 @@
-<h1>Hi! Please confirm your email!</h1>
+<p>Bienvenue sur le site communautaire de Snowtricks,</p>
+    
+<p>Pour activer votre compte, veuillez cliquer sur le lien ci-dessous
+ou copier/coller dans votre navigateur Internet. </p>
 
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+<p>{{ host }}/accountvalidation/{{ user.accountKey }}</p>
 
-<p>
-    Cheers!
-</p>
+<p>-------------------------------</p>
+<p>Ceci est un mail automatique, merci de ne pas y répondre.</p>

@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -24,7 +25,8 @@ class SnowtrickType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'attr' => ['class' => 'content'],
-                'label' => 'Description '
+                'label' => 'Description ',
+                'required' => false
             ])
             ->add('trickGroup', EntityType::class, [
                 'class' => TrickGroup::class,
@@ -43,6 +45,21 @@ class SnowtrickType extends AbstractType
                     new Valid()
                 ]
             ])
+            ->add('videos', CollectionType::class, [
+                'label' => 'Vidéos',
+                'entry_type' => VideoType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'constraints' => [
+                    new Count(min: 1, minMessage: 'Vous devez ajouter au moins une vidéo.', groups: ['new', 'edit']),
+                    new Valid()
+                ]
+            ])
+            ->add('valider', SubmitType::class, [
+                'label' => $options['button_label'],
+                'attr' => ['class' => 'save btn-success']
+            ])
         ;
     }
 
@@ -50,7 +67,8 @@ class SnowtrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Snowtrick::class,
-            'validation_groups' => []
+            'validation_groups' => [],
+            'button_label' => []
         ]);
     }
 }

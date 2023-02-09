@@ -15,7 +15,7 @@ class Video
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Le champ url doit être rempli.')]
     #[Assert\Url(message: 'L\'url {{ value }} n\'est pas valide.')]
     private ?string $url = null;
 

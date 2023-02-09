@@ -1,0 +1,11 @@
+<div class="collection-form">
+    {{ form_label(form.url) }}
+    {{ form_widget(form.url, {'attr': {'placeholder': 'Url de la vidéo Youtube', 'class': 'video-input'}}) }}
+    
+    <div class="form-group">
+        <button type="button" class="btn btn-danger btn-remove"><i class="bi bi-x-lg"></i></button>
+    </div>
+   
+</div>
+
+{{ form_errors(form.url) }}

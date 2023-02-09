@@ -28,7 +28,7 @@ class SnowtrickController extends AbstractController
     public function new(Request $request, SnowtrickRepository $snowtrickRepository, UserRepository $userRepository, FileUploader $fileUploader): Response
     {
         $snowtrick = new Snowtrick();
-        $form = $this->createForm(SnowtrickType::class, $snowtrick, ['validation_groups' => 'new']);
+        $form = $this->createForm(SnowtrickType::class, $snowtrick, ['validation_groups' => 'new', 'button_label' => 'Créer la figure']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -41,6 +41,7 @@ class SnowtrickController extends AbstractController
             $snowtrick->setSlug(strtolower($slugger->slug($snowtrick->getTitle())));
 
             $fileUploader->uploadImages($snowtrick);
+            $fileUploader->uploadVideos($snowtrick);
 
             $snowtrickRepository->save($snowtrick, true);
 
@@ -67,12 +68,16 @@ class SnowtrickController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_snowtrick_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Snowtrick $snowtrick, SnowtrickRepository $snowtrickRepository/*, FileUploader $fileUploader */): Response
+    public function edit(Request $request, Snowtrick $snowtrick, SnowtrickRepository $snowtrickRepository, FileUploader $fileUploader): Response
     {
-        $form = $this->createForm(SnowtrickType::class, $snowtrick, ['validation_groups' => 'edit']);
+        $form = $this->createForm(SnowtrickType::class, $snowtrick, ['validation_groups' => 'edit', 'button_label' => 'Modifier']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $fileUploader->uploadImages($snowtrick);
+            $fileUploader->uploadVideos($snowtrick);
+
             $snowtrickRepository->save($snowtrick, true);
 
             return $this->redirectToRoute('app_snowtrick_index', [], Response::HTTP_SEE_OTHER);

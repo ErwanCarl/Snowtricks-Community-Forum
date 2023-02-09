@@ -29,5 +29,5 @@ const newItem = (e) => {
 
     collectionHolder.dataset.index++;
 };
-document.querySelectorAll('.btn-remove').forEach(btn => btn.addEventListener("click", (e) => e.currentTarget.closest(".my-image").remove()));
+document.querySelectorAll('.btn-remove').forEach(btn => btn.addEventListener("click", (e) => e.currentTarget.closest(".input-media").remove()));
 document.querySelectorAll('.btn-new').forEach(btn => btn.addEventListener('click', newItem));

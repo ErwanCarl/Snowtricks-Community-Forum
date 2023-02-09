@@ -17,7 +17,7 @@ class PictureType extends AbstractType
         $builder
             ->add('file', FileType::class, [
                 'required' => false,
-                'label' => 'Images',
+                'label' => false,
                 'attr' => ['class' => 'snowtrick_pic'],
                 'constraints' => [
                     new File([
