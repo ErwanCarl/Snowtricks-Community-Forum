@@ -1,0 +1,151 @@
+/* ------------------ Form -------------------- */
+
+label.required:after {
+    content: "*";
+    padding-left : 2px;
+}
+
+.login-form {
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.collection-form {
+    display: flex;
+    margin: 20px 0;
+    width: 60%;
+}
+
+#trick_pictures .collection-form .mb-3, .video-input {
+    flex: 3;
+    margin: 0 10px 0 0;
+}
+
+#trick_pictures, #trick_videos {
+    margin: 50px 0 30px 0;
+}
+
+.hidden-block {
+    visibility: hidden;
+    height: 0;
+}
+
+/* ------------------ Général / Home -------------------- */
+
+body {
+    background-color :rgb(247, 224, 238);
+}
+
+.copyright {
+    text-align: center;
+    font-family: 'Parisienne';
+    font-weight: bold;
+    padding: 15px 0 3px 0;
+    background-color: dark;
+    color: rgba(255,255,255,.55);
+    border-top: 1px solid rgba(255,255,255,.55);
+
+}
+
+.home-bg {
+        margin: 80px auto;
+        text-align: center;
+}
+
+body a, body button, h1 {
+    font-family: 'Parisienne';
+}
+
+h1 {
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.navbar-nav {
+    width: 100%;
+    justify-content: space-around;
+}
+
+.header-p1, .header-p2{
+    display: flex;
+    width: 50%;
+}
+
+.header-p1 li {
+margin: auto 50px;
+}
+
+.header-p2 {
+    justify-content: flex-end;
+    margin-right: 100px;
+}
+
+.btn.btn-primary {
+    padding: 5px 50px;
+}
+
+.creation-link {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+}
+
+/* ------------------ Snowtrick New / Show -------------------- */
+
+body > div.container.snowtrick-new, .container.snowtrick-show, .form-button {
+    display: flex;
+    flex-direction: column;
+}
+
+.snowtrick-new a, .snowtrick-show a, .form-button button {
+    margin: 60px auto;
+    font-size: 20px;
+    padding: 5px 50px;
+}
+
+.creation-link a {
+    font-size: 20px;
+    padding: 5px 50px;
+}
+
+.snowtrick-info {
+    display: flex;
+}
+
+.snowtrick-pic {
+    height:150px;
+    border-bottom: solid 2px black;
+}
+
+.snowtrick-card{
+    border: solid 2px black;
+    border-radius: 2px;
+    margin: 20px;
+    padding: 0;
+}
+
+.snowtrick-info {
+    padding: 10px;
+    justify-content: space-around;
+    background-color: white;
+}
+
+.snowtrick-info a {
+    text-decoration: none;
+    color: green;
+    font-weight: bold;
+}
+
+.snowtrick-info i {
+    padding: 3px 6px 0.3px 6px;
+    margin: auto 2px;
+}
+
+.snowtrick-info .btn-danger {
+    padding: 3px 6px 3px 6px;
+}
+
+.row.row-cols-5 {
+    justify-content: space-around;
+}

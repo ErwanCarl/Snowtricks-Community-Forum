@@ -1,6 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['bootstrap_5_layout.html.twig']
+    globals: 
+        host: 'https://127.0.0.1:8000'
 
 when@test:
     twig:

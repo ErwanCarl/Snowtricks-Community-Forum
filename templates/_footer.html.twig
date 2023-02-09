@@ -1,0 +1,19 @@
+{% block footerbar %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <ul class="navbar-nav">
+            {% if app.user %}
+                <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-box-arrow-left pe-2"></i>Déconnexion</a></li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right pe-2"></i>Connexion</a></li>
+            {% endif %}
+            <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-gear-wide-connected pe-2"></i>Administration</a></li>
+            <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-bank pe-2"></i>Mentions Légales</a></li>
+        </ul>
+    </nav>
+
+    <div class="copyright navbar-dark bg-dark">
+        <p class="nav-item">
+            Copyright 2023 - Site réalisé par <em>Erwan Carlini</em> - Développeur d'application PhP / Symfony<br>
+        </p>
+    </div>
+{% endblock %}
