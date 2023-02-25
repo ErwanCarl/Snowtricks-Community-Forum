@@ -16,7 +16,7 @@ class MailerService
         $this->mailer = $mailerInterface;
     }
 
-    public function sendRegistrationEmail(User $user): void
+    public function sendRegistrationEmail(User $user)
     {
         $email = (new TemplatedEmail())
             ->from('erwan.carlini@orange.fr')

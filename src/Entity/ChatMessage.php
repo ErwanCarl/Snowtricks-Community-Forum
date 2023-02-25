@@ -16,13 +16,12 @@ class ChatMessage
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Le contenu ne doit pas être vide.')]
+    #[Assert\NotBlank(message: 'Le message ne doit pas être vide.')]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    #[Assert\NotBlank]
     private ?\DateTimeImmutable $creationDate;
-
+  
     #[ORM\ManyToOne(inversedBy: 'chatMessages', targetEntity: Snowtrick::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Snowtrick $snowtrick = null;
@@ -53,9 +52,10 @@ class ChatMessage
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeImmutable
+    public function getCreationDate(): ?string
     {
-        return $this->creationDate;
+        $creationDateDisplay = $this->creationDate->format('d-m-Y H:i:s');
+        return $creationDateDisplay;
     }
 
     public function setCreationDate(\DateTimeImmutable $creationDate): self

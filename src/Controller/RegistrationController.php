@@ -42,19 +42,12 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            if($mailerService->sendRegistrationEmail($user)) {
-                $this->addFlash(
-                    'success',
-                    'Votre compte a bien été crée, veuillez vérifier vos mails pour le valider.'
-                );
-                return $this->redirectToRoute('app_login');
-            } else {
-                $this->addFlash(
-                    'danger',
-                    'L\'envoi du mail de validation a échoué, veuillez contacter l\'administrateur.'
-                );
-                return $this->redirectToRoute('app_register');
-            }
+            $mailerService->sendRegistrationEmail($user);
+            $this->addFlash(
+                'success',
+                'Votre compte a bien été crée, veuillez vérifier vos mails pour le valider.'
+            );
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -63,29 +56,26 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/accountvalidation/{accountKey}', name: 'app_account_validation')]
-    // #[Entity('user', options: ['accountKey' => 'accountKey'])]
-    // #[Entity('user', expr: 'repository.find(accountKey)')]
-    // #[ParamConverter('user', options: ['mapping' => ['accountKey' => 'accountKey']])]
-    public function verifyAccountEmail(/* #[MapEntity(expr: 'repository.find(accountKey)')] */ User $user, UserRepository $userRepository) : Response
+    public function verifyAccountEmail(string $accountKey, UserRepository $userRepository) : Response
     {
-        // dd($user);
-        // Si il trouve pas > error de la page : comment gérer ça ?
-        if($user) {
-            $user->setAccountKey(null);
-            $user->setIsVerified(true);
-            $userRepository->save($user, true);
-
-            $this->addFlash(
-                'success',
-                'Votre compte a bien été validé, vous pouvez désormais vous connecter.'
-            );
-            return $this->redirectToRoute('app_login');
-        } else {
+        $user = $userRepository->findOneBy($accountKey);
+        
+        if(!$user) {
             $this->addFlash(
                 'danger',
-                'Le lien a expiré ou a déjà été utilisé, veuillez tenter de vous connecter ou contactez l\'administrateur.'
+                'Le lien a expiré ou n\'est plus valide, veuillez tenter de vous connecter ou contactez l\'administrateur.'
             );
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_not_found');
         }
+
+        $user->setAccountKey(null);
+        $user->setIsVerified(true);
+        $userRepository->save($user, true);
+
+        $this->addFlash(
+            'success',
+            'Votre compte a bien été validé, vous pouvez désormais vous connecter.'
+        );
+        return $this->redirectToRoute('app_login');
     }
 }

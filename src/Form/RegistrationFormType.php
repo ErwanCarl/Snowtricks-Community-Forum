@@ -28,9 +28,8 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                // 'mapped' => false,
                 'label' => 'Mot de passe',
-                // 'attr' => ['autocomplete' => 'new-password'],
+                'help' => 'Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Vous devez rentrer un mot de passe.',

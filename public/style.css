@@ -1,9 +1,9 @@
 /* ------------------ Form -------------------- */
 
-label.required:after {
+/* label.required:after {
     content: "*";
     padding-left : 2px;
-}
+} */
 
 .login-form {
     display:flex;
@@ -26,10 +26,12 @@ label.required:after {
     margin: 50px 0 30px 0;
 }
 
-.hidden-block {
+.hidden-block .mb-3 {
     visibility: hidden;
     height: 0;
+    width: 0;
 }
+
 
 /* ------------------ Général / Home -------------------- */
 
@@ -148,4 +150,46 @@ body > div.container.snowtrick-new, .container.snowtrick-show, .form-button {
 
 .row.row-cols-5 {
     justify-content: space-around;
+}
+
+#picture-carousel img {
+    object-fit: cover;
+    height: 150px;
+    width: 180px;
+}
+
+#picture-carousel, #video-carousel {
+    width: 50%;
+}
+
+#picture-carousel {
+    margin-right: 10px;
+}
+
+.media-carousel {
+    display: flex;
+    justify-content: space-around;
+    margin: 80px 10px 80px 10px;
+}
+
+.hidden-block img, .hidden-block {
+    width: 50px;
+    height: 50px;
+}
+
+.hidden-block {
+    margin: 50px 140px 10px 0;
+    display: flex;
+}
+
+.hidden-block .collection-form {
+    margin: 5px 0 0 0;
+}
+
+#trick_pictures > div.container-fluid {
+    margin: 0 auto 50px auto;
+}
+
+.owl-carousel.owl-drag .owl-item {
+    text-align: center;
 }

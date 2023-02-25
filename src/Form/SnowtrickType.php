@@ -9,11 +9,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SnowtrickType extends AbstractType
 {
@@ -26,13 +28,19 @@ class SnowtrickType extends AbstractType
             ->add('content', TextareaType::class, [
                 'attr' => ['class' => 'content'],
                 'label' => 'Description ',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new NotNull(message: 'Vous devez rentrer un contenu.')
+                ]
             ])
             ->add('trickGroup', EntityType::class, [
                 'class' => TrickGroup::class,
                 'choice_label' => 'label ',
                 'placeholder' => 'Sélectionnez',
-                'label' => 'Groupe '
+                'label' => 'Groupe ',
+                'constraints' => [
+                    new NotBlank(message: 'Vous devez assigner la figure à un groupe.', groups: ['new', 'edit'])
+                ]
             ])
             ->add('pictures', CollectionType::class, [
                 'label' => 'Images',

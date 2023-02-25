@@ -1,0 +1,12 @@
+<div class="chatMessage-form">
+    {{ form_start(chatMessageForm) }}
+        <div class="chatMessage-content-form">
+            {{ form_widget(chatMessageForm._token)}}
+            {{ form_row(chatMessageForm.content, {'attr': {'class': 'chat-content'}}) }}
+        </div>
+
+        <div class="form-button">
+            {{ form_row(chatMessageForm.envoyer) }}
+        </div>
+    {{ form_end(chatMessageForm) }}
+</div>

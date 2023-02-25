@@ -24,6 +24,7 @@ class Picture
 
     #[ORM\ManyToOne(inversedBy: 'pictures', targetEntity: Snowtrick::class)]
     #[ORM\JoinColumn(nullable: false)]
+    // #[ORM\JoinColumn(onDelete="CASCADE")]
     private ?Snowtrick $snowtrick = null;
 
     public function getId(): ?int
