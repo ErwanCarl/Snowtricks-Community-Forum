@@ -29,4 +29,18 @@ class MailerService
 
         $this->mailer->send($email);
     }
+
+    public function sendResetPasswordEmail(User $user)
+    {
+        $email = (new TemplatedEmail())
+            ->from('erwan.carlini@orange.fr')
+            ->to($user->getMail())
+            ->subject('Récupération de mot de passe')
+            ->htmlTemplate('login/reset_password_email.html.twig')
+            ->context([ 
+                'user' => $user
+            ]);
+
+        $this->mailer->send($email);
+    }
 }

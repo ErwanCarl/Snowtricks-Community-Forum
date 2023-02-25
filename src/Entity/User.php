@@ -60,9 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(message: 'Le mot de passe doit être renseigné.')]
     #[Assert\Length(
-        min: 8,
         max: 255,
-        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
         maxMessage: 'Le mot de passe ne peut excéder {{ limit }} caractères.'
     )]
     #[Assert\Regex(
@@ -73,9 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(
-        min: 8,
         max: 255,
-        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
         maxMessage: 'Le mot de passe ne peut excéder {{ limit }} caractères.'
     )]
     #[Assert\Regex(
