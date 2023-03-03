@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SnowtrickRepository::class)]
-#[UniqueEntity('title', message : 'Le titre de la figure existe déjà en base de données.')]
+#[UniqueEntity('title', message : 'Le titre de la figure existe déjà en base de données.', groups: ['new', 'edit'])]
 #[UniqueEntity('slug')]
 class Snowtrick
 {
@@ -20,8 +20,8 @@ class Snowtrick
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: 'Le titre doit être renseigné.')]
+    #[ORM\Column(length: 50, unique:true)]
+    #[Assert\NotBlank(message: 'Le titre doit être renseigné.', groups: ['new', 'edit'])]
     #[Assert\Length(
         min: 2,
         max: 50,
@@ -33,13 +33,14 @@ class Snowtrick
     #[ORM\Column(length: 50)]
     private ?string $author = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, unique:true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Le contenu ne peut être vide.')]
+    #[Assert\NotBlank(message: 'Le contenu ne peut être vide.', groups: ['new', 'edit'])]
     private ?string $content = null;
 
+    
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Assert\NotBlank]
     private ?\DateTimeImmutable $creationDate;
@@ -53,6 +54,7 @@ class Snowtrick
 
     #[ORM\ManyToOne(inversedBy: 'snowtricks', targetEntity: TrickGroup::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: 'Vous devez assigner un groupe.', groups: ['new', 'edit'])]
     private ?TrickGroup $trickGroup = null;
 
     #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: ChatMessage::class, orphanRemoval: true)]
@@ -64,6 +66,7 @@ class Snowtrick
     private Collection $videos;
 
     #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: Picture::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[Assert\Valid()]
     private Collection $pictures;
 
     public function __construct()
@@ -126,9 +129,10 @@ class Snowtrick
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeImmutable
+    public function getCreationDate(): ?string
     {
-        return $this->creationDate;
+        $creationDateDisplay = $this->creationDate->format('d-m-Y H:i:s');
+        return $creationDateDisplay;
     }
 
     public function setCreationDate(\DateTimeImmutable $creationDate): self
@@ -138,9 +142,15 @@ class Snowtrick
         return $this;
     }
 
-    public function getModificationDate(): ?\DateTimeImmutable
+    public function getModificationDate(): ?string
     {
-        return $this->modificationDate;
+        $modifValue = $this->modificationDate;
+        if(!$modifValue == null) {
+            $modificationDateDisplay = $modifValue->format('d-m-Y H:i:s');
+            return $modificationDateDisplay;
+        } else {
+            return null;
+        }
     }
 
     public function setModificationDate(?\DateTimeImmutable $modificationDate): self

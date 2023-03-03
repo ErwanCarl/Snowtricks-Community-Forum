@@ -1,4 +1,10 @@
 {% block navbar %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="user-banner">
+        <p>Bienvenue, {{ app.user.nickname }}.</p>
+    </div>
+{% endif %}
+
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
     <div class="container-fluid justify-content-center">
         <a class="navbar-brand m-0" href=""></a>
@@ -16,9 +22,9 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-person-circle pe-2"></i>{{app.user.nickname}}</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href=""><i class="bi bi-box-arrow-left pe-2"></i>Déconnexion</a>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-left pe-2"></i>Déconnexion</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href=""><i class="bi bi-gear-fill pe-2"></i>Paramètres de compte</a>
+                                <a class="dropdown-item" href="{{ path('app_account_settings') }}"><i class="bi bi-gear-fill pe-2"></i>Paramètres de compte</a>
                             </div>
                         </li>
                     {% else %}

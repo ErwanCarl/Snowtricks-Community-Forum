@@ -12,6 +12,10 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $this->denyAccessUnlessGranted('connected', $user);
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -21,6 +25,23 @@ class LoginController extends AbstractController
         return $this->render('login/index.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+        ]);
+    }
+
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    public function logout()
+    {
+    }
+
+    #[Route('/lostpassword', name: 'app_lost_password')]
+    public function lostpassword(): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $this->denyAccessUnlessGranted('connected', $user);
+    
+        return $this->render('login/lostpassword.html.twig', [
+        
         ]);
     }
 }

@@ -2,64 +2,191 @@
 
 {% block title %}Snowtrick{% endblock %}
 
-{% block body %}
-<div class="container snowtrick-show">
+{% block stylesheets %}
+    {{ parent()}}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    
+{% endblock %}
 
-    <a href="{{ path('app_snowtrick_index') }}" class="btn btn-dark">Retourner sur la page d'accueil</a>
+{% block body %}
+<div class="snowtrick-show">
+
+    <a href="{{ path('app_snowtrick_index') }}" class="back-home btn btn-dark">Retourner sur la page d'accueil</a>
 
     <h1>Snowtrick</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ snowtrick.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ snowtrick.title }}</td>
-            </tr>
-            <tr>
-                <th>Author</th>
-                <td>{{ snowtrick.author }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ snowtrick.slug }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ snowtrick.content }}</td>
-            </tr>
-            <tr>
-                <th>CreationDate</th>
-                <td>{{ snowtrick.creationDate ? snowtrick.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>ModificationDate</th>
-                <td>{{ snowtrick.modificationDate ? snowtrick.modificationDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="media-carousel"> 
+        <div class="owl-carousel owl-pictures owl-theme" id="picture-carousel">
+            {% for picture in pictures %}
+                <div class="item" style="width:200px">
+                    <img src="{{ asset('snowtrick_picture/') }}{{ picture.fileName }}"/>
+                </div>
+            {% endfor %}
+        </div>
 
-    <a href="{{ path('app_snowtrick_edit', {'id': snowtrick.id}) }}" class="btn btn-success">Modifier</a>
-
-    {{ include('snowtrick/_delete_form.html.twig') }}
-
-    <div class="comment-bloc">
-
-
-
-
-
-
-
-
-
-
-        {{ include('snowtrick/_form.html.twig', {'button_label': 'Créer la figure'}) }}
-
+         <div class="owl-carousel owl-videos owl-theme" id="video-carousel">
+            {% for video in snowtrick.videos %}
+                <div class="item">
+                    <iframe width="180" height="150" src="https://www.youtube.com/embed/{{ video.videoId }}" allow="encrypted-media" allowfullscreen></iframe>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
+    <div class="container">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ snowtrick.id }}</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ snowtrick.title }}</td>
+                </tr>
+                <tr>
+                    <th>Author</th>
+                    <td>{{ snowtrick.author }}</td>
+                </tr>
+                <tr>
+                    <th>Slug</th>
+                    <td>{{ snowtrick.slug }}</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>{{ snowtrick.content|raw }}</td>
+                </tr>
+                <tr>
+                    <th>CreationDate</th>
+                    <td>{{ snowtrick.creationDate ? snowtrick.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>ModificationDate</th>
+                    <td>{{ snowtrick.modificationDate ? snowtrick.modificationDate|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if app.user == snowtrick.user %}
+            <a href="{{ path('app_snowtrick_edit', {'id': snowtrick.id}) }}" class="btn btn-success">Modifier</a>
+        {% endif %}
+
+        {% if app.user == snowtrick.user %}
+            {{ include('snowtrick/_delete_form.html.twig') }}
+        {% endif %}
+
+        <div class="comment-bloc">
+            <div class="comment-bloc-title">
+                <h3>Chat<h3>
+            </div>
+            <div class="comment-bloc-messages">
+                {% if chatMessages %}
+                    {% for chatMessage in chatMessages %}
+                        <div class="comments_author">
+                            <h6>
+                                <em>{{ chatMessage.creationDate }} - <strong>{{ chatMessage.user.nickname }} {{ chatMessage.user.name }}</strong></em> a écrit : 
+                            </h6>
+                        </div>
+
+                        <div class="comments_content">
+                            <h6>
+                                {{ chatMessage.content }}                    
+                            </h6>
+                        </div>
+                        
+                        <hr class="comment_bar"> 
+                    {% endfor %}
+                {% else %}
+                    <p>Il n'y a aucun message dans le chat pour l'instant sur cette figure.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="comment-input">
+            {% if app.user %}
+                {{ include('chatMessage/_chatMessage-form.html.twig') }}
+            {% else %}
+                <div id="comment-noconnected" class="alert-danger alert" role="alert">
+                    <p>Vous devez vous connecter pour laisser un message dans le chat.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $('.owl-videos').owlCarousel({
+                loop:true,
+                autoplay: true,
+                responsiveClass: true,
+                autoplayHoverPause: true,
+                autoplayTimeout: 5000,
+                margin:10,
+                nav:true,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        {% if pictures|length == 1 %}
+                            items:1,
+                        {% else %}
+                            items:2,
+                        {% endif %}
+                    },
+                    1000:{
+                        {% if snowtrick.videos|length == 1 %}
+                            items:1,
+                        {% elseif snowtrick.videos|length == 2 %}
+                            items:2,
+                            loop:false,
+                        {% else %}
+                            items: 3,
+                        {% endif %}
+                    }
+                }
+            })
+
+            $('.owl-pictures').owlCarousel({
+                loop:true,
+                autoplay: true,
+                responsiveClass: true,
+                autoplayHoverPause: true,
+                autoplayTimeout: 5000,
+                margin:10,
+                nav:true,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        {% if pictures|length == 1 %}
+                            items:1,
+                        {% else %}
+                            items:2,
+                        {% endif %}
+                    },
+                    1000:{
+                        {% if pictures|length == 1 %}
+                            items:1,
+                        {% elseif pictures|length == 2 %}
+                            items:2,
+                            loop:false,
+                        {% else %}
+                            items: 3,
+                        {% endif %}
+                    }
+                }
+            })
+        })
+    </script>
 {% endblock %}
