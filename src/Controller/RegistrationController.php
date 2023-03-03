@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
     #[Route('/accountvalidation/{accountKey}', name: 'app_account_validation')]
     public function verifyAccountEmail(string $accountKey, UserRepository $userRepository) : Response
     {
-        $user = $userRepository->findOneBy($accountKey);
+        $user = $userRepository->findOneByKey($accountKey);
         
         if(!$user) {
             $this->addFlash(

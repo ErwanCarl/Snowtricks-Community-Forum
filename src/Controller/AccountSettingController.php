@@ -46,7 +46,7 @@ class AccountSettingController extends AbstractController
 
         return $this->render('accountsettings/account-settings.html.twig', [
             'user' => $user,
-            'lostPasswordForm' => $lostPasswordForm
+            'lostPasswordForm' => $lostPasswordForm->createView()
         ]);
     }
 }
