@@ -41,7 +41,7 @@ class ChatMessageRepository extends ServiceEntityRepository
     }
 
     // return the number of messages linked to a snowtrick
-    public function countChatMessages(Snowtrick $snowtrick)
+    public function countChatMessages(Snowtrick $snowtrick) : mixed
     {
         return $this->createQueryBuilder('c')
             ->select('COUNT(c)')

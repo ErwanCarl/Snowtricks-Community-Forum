@@ -41,7 +41,7 @@ class SnowtrickRepository extends ServiceEntityRepository
     }
 
      // return limited number of snowtricks
-     public function limitedSnowtricks()
+     public function limitedSnowtricks() : mixed
      {
         return $this->createQueryBuilder('c')
             ->orderBy('c.creationDate', 'DESC')

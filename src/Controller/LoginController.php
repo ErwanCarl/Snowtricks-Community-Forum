@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')]
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         /** @var \App\Entity\User $user */
@@ -36,11 +36,11 @@ class LoginController extends AbstractController
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
-    public function logout()
+    public function logout() : void
     {
     }
 
-    #[Route('/lostpassword', name: 'app_lost_password')]
+    #[Route('/lostpassword', name: 'app_lost_password', methods: ['GET', 'POST'])]
     public function lostpassword(Request $request, UserRepository $userRepository, MailerService $mailerService): Response
     {
         /** @var \App\Entity\User $isUser */

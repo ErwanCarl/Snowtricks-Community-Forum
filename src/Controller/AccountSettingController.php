@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AccountSettingController extends AbstractController
 {
-    #[Route('/accountsettings', name: 'app_account_settings')]
+    #[Route('/accountsettings', name: 'app_account_settings', methods: ['GET', 'POST'])]
     public function accountSettings(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
