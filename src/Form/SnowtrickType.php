@@ -37,7 +37,7 @@ class SnowtrickType extends AbstractType
                 'class' => TrickGroup::class,
                 'choice_label' => 'label ',
                 'placeholder' => 'Sélectionnez',
-                'label' => 'Groupe '
+                'label' => 'Difficulté'
             ])
             ->add('pictures', CollectionType::class, [
                 'label' => 'Images',

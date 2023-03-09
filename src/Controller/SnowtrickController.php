@@ -78,6 +78,11 @@ class SnowtrickController extends AbstractController
     #[Route('/snowtrick/show/{id}/{slug}/{page}', name: 'app_snowtrick_show', methods: ['GET', 'POST'])]
     public function show(Request $request,  Snowtrick $snowtrick, ChatMessageRepository $chatMessageRepository, PaginationHandler $paginationHandler, int $page): Response
     {
+        $isLoaded = null;
+        if ($request->get('loadmore')) {
+            $isLoaded = 'isLoaded';
+        } 
+
         $chatMessage = new ChatMessage();
         $chatMessageForm = $this->createForm(ChatMessageType::class, $chatMessage);
         $chatMessageForm->handleRequest($request);
@@ -119,7 +124,8 @@ class SnowtrickController extends AbstractController
             'chatMessages' => $chatMessages,
             'chatMessageForm' => $chatMessageForm,
             'pageNumber' => $pageNumber,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
+            'isLoaded' => $isLoaded
         ]);
     }
 

@@ -1,5 +1,12 @@
 {% block navbar %}
 
+<div class="header-only-resp">
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="user-banner-resp">
+            <p><a href="{{ path('app_account_settings') }}"><img src="{{ asset('users_logo/') }}{{ app.user.logo }}" class="banner-logo"></a> Bienvenue, {{ app.user.nickname }}.</p>
+        </div>
+    {% endif %}
+</div>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark header-no-resp">
     <div class="container-fluid justify-content-center">
         <a class="navbar-brand m-0" href=""></a>
@@ -11,7 +18,7 @@
                 <div class="header-p1">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <div class="user-banner">
-                            <p><img src="{{ asset('users_logo/') }}{{ app.user.logo }}" class="banner-logo"> Bienvenue, {{ app.user.nickname }}.</p>
+                            <p><a href="{{ path('app_account_settings') }}"><img src="{{ asset('users_logo/') }}{{ app.user.logo }}" class="banner-logo"></a> Bienvenue, {{ app.user.nickname }}.</p>
                         </div>
                     {% endif %}
                 </div>

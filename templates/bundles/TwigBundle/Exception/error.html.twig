@@ -3,13 +3,13 @@
 {% block title %}Erreur {{ status_code }} - Problème survenu{% endblock %}
 
 {% block body %}
-   <div id="not_found_page" class="text-center text-secondary">
+   <div id="error-undefined" class="text-center text-secondary error-page">
         <h1 class="display-1 text-danger font-title font-weight-bold">Page en erreur {{ status_code }}.</h1>
 
         <div>
             Une erreur {{ status_code }} s'est produite lors du chargement de la page.
         </div>
-        <div class="back_home">
+        <div class="back-home-error">
             Vous pouvez revenir à <a href="{{ path('app_snowtrick_index') }}">l'accueil</a>.
         </div>
     </div>

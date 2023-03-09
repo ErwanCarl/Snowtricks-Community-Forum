@@ -46,7 +46,7 @@ class SnowtrickRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->orderBy('c.creationDate', 'DESC')
             ->setFirstResult(0)
-            ->setMaxResults(2)
+            ->setMaxResults(8)
             ->getQuery()
             ->getResult();
      }

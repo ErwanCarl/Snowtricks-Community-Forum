@@ -110,7 +110,7 @@ class LoginController extends AbstractController
                 'Votre nouveau mot de passe a bien été enregistré.'
             );
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_snowtrick_index');
         }
 
         return $this->render('login/reset-password.html.twig', [

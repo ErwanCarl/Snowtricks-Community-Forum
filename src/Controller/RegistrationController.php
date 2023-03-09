@@ -21,6 +21,10 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerService $mailerService): Response
     {
+        /** @var \App\Entity\User $isUser */
+        $isUser = $this->getUser();
+        $this->denyAccessUnlessGranted('connected', $isUser);
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -47,7 +51,7 @@ class RegistrationController extends AbstractController
                 'success',
                 'Votre compte a bien été crée, veuillez vérifier vos mails pour le valider.'
             );
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_snowtrick_index');
         }
 
         return $this->render('registration/register.html.twig', [
