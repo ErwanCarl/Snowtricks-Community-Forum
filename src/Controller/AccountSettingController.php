@@ -48,7 +48,7 @@ class AccountSettingController extends AbstractController
         ]);
     }
 
-    #[Route('/logosettings', name: 'app_logo_settings')]
+    #[Route('/logosettings', name: 'app_logo_settings', methods: ['POST'])]
     public function logoSettings(Request $request, UserRepository $userRepository, FormHandler $formHandler): Response
     {
         $logo = $request->get('logo');

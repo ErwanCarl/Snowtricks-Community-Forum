@@ -79,7 +79,7 @@ class LoginController extends AbstractController
         ]);
     }
 
-    #[Route('/reset-password/{accountKey}', name: 'app_reset_password')]
+    #[Route('/reset-password/{accountKey}', name: 'app_reset_password', methods: ['GET', 'POST'])]
     public function verifyAccountEmail(Request $request, string $accountKey, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher) : Response
     {
         $user = $userRepository->findOneByAccountKey($accountKey);
