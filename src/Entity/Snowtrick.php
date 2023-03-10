@@ -53,12 +53,12 @@ class Snowtrick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'snowtricks', targetEntity: TrickGroup::class)]
+    #[ORM\ManyToOne(inversedBy: 'snowtricks', targetEntity: TrickGroup::class, cascade:["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: 'Vous devez assigner un groupe à la figure.', groups: ['new', 'edit'])]
     private ?TrickGroup $trickGroup = null;
 
-    #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: ChatMessage::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'snowtrick', targetEntity: ChatMessage::class, orphanRemoval: true, cascade:["persist", "remove"])]
     #[Assert\Valid()]
     private Collection $chatMessages;
 

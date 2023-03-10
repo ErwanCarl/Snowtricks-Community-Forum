@@ -16,15 +16,16 @@ class AppFixtures extends Fixture
 {
 
     private $slugger;
+    private $userPasswordHasher;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHasherInterface)
     {
         $this->slugger = $slugger;
+        $this->userPasswordHasher = $userPasswordHasherInterface;
     }
 
     public function getUserData() : User 
     {
-        $userPasswordHasher = new UserPasswordHasherInterface();
         $user = new User();
         $user 
             ->setNickname('Jérémie')
@@ -33,23 +34,11 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_USER'])
             ->setIsVerified(true)
             ->setLogo('flower.png')
-            ->setPassword($userPasswordHasher->hashPassword($user, 'Jeremie34090!'));
+            ->setPassword($this->userPasswordHasher->hashPassword($user, 'Jeremie34090!'));
 
         return $user;
     }
     
-    public function getTrickGroupData() : array 
-    {
-        $group1 = 'Facile';
-        $group2 = 'Intermédiaire';
-        $group3 = 'Difficile';
-        $group4 = 'Extrême';
-
-        $trickGroups = [$group1, $group2, $group3, $group4];
-        return $trickGroups;
-    }
-
-
     public function getSnowtrickData(): array
     {
         $group1 = new TrickGroup();
@@ -125,7 +114,7 @@ class AppFixtures extends Fixture
                 'Switch Method',
                 'Jéremie Martin',
                 "Danny Davis est comme ces meilleurs potes qui peuvent faire tous les tricks avec juste un tout petit plus de classe que toi. Aussi difficiles ou aussi faciles soient-ils. Si un nombre incalculable de blessures ne l’avait pas cloué au lit, il aurait mis sens dessus dessous le monde de la compétition en pipe. Heureusement qu’il y a la vidéo. Et puis on peut quand même se faire une compétition de temps en temps. Et alors on peut y mettre un peu de switch method pour faire tomber les juges à la renverse.",
-                $group3,
+                $group2,
                 'switch-method.jpg',
                 'https://www.youtube.com/watch?v=szW8xTlpaAw&ab_channel=SnowboarderMagazine',
                 'szW8xTlpaAw'
@@ -134,7 +123,7 @@ class AppFixtures extends Fixture
                 'Going bigger',
                 'Jéremie Martin',
                 "Soyons francs, tous les tricks de Travis pourraient être des signatures. Son genre «I go bigger» se voit probablement dès le matin aux toilettes. Trois fois par dessus la tête ou simply straight, il semble que Travis puisse à peu près tout essayer plus haut, plus loin, plus extrême, plus beau et en premier la plupart du temps.",
-                $group3,
+                $group2,
                 'going-bigger.jpg',
                 'https://www.youtube.com/watch?v=wlEY-D2F6Yk&ab_channel=NetworkA',
                 'wlEY-D2F6Yk'
@@ -220,14 +209,6 @@ class AppFixtures extends Fixture
         $user = $this->getUserData();
         $manager->persist($user);
         $manager->flush();
-
-        $trickGroups = $this->getTrickGroupData();
-        foreach ($trickGroups as $label) {
-            $trickGroup = new TrickGroup();
-            $trickGroup->setLabel($label);
-            $manager->persist($trickGroup);
-            $manager->flush();
-        }
         
         $snowtricks = $this->getSnowtrickData();
         foreach ($snowtricks as [$title, $author, $content, $trickGroupX, $pictureName, $videoUrl, $videoId]) {
@@ -250,7 +231,7 @@ class AppFixtures extends Fixture
             $snowtrick
                 ->setTitle($title)
                 ->setAuthor($author)
-                ->setSlug($this->slugger->slug($title))
+                ->setSlug(strtolower($this->slugger->slug($title)))
                 ->setContent($content)
                 ->addPicture($picture)
                 ->addVideo($video)
