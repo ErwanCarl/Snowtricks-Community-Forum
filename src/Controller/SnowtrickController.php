@@ -168,8 +168,10 @@ class SnowtrickController extends AbstractController
     {
         $snowtrick = $snowtrickRepository->findOneById($id);
         $this->denyAccessUnlessGranted('delete', $snowtrick);
+        
+        $csrfVerification = 'delete'.$snowtrick->getId();
 
-        if ($this->isCsrfTokenValid('delete'.$snowtrick->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid($csrfVerification, $request->request->get('_token'))) {
             $snowtrickRepository->remove($snowtrick, true);
         }
 
