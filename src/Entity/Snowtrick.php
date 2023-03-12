@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SnowtrickRepository;
-use DateTimeImmutable;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: SnowtrickRepository::class)]
@@ -47,7 +47,7 @@ class Snowtrick
     private ?\DateTimeImmutable $creationDate;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private ?\DateTimeImmutable $modificationDate = null;
+    private ?DateTimeImmutable $modificationDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'snowtricks', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]

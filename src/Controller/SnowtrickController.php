@@ -164,8 +164,9 @@ class SnowtrickController extends AbstractController
     }
 
     #[Route('/snowtrick/delete/{id}', name: 'app_snowtrick_delete', methods: ['POST'])]
-    public function delete(Request $request, Snowtrick $snowtrick, SnowtrickRepository $snowtrickRepository): Response
+    public function delete(Request $request, int $id, SnowtrickRepository $snowtrickRepository): Response
     {
+        $snowtrick = $snowtrickRepository->findOneById($id);
         $this->denyAccessUnlessGranted('delete', $snowtrick);
 
         if ($this->isCsrfTokenValid('delete'.$snowtrick->getId(), $request->request->get('_token'))) {
