@@ -1,6 +1,6 @@
 # P6 Openclassrooms - Snowtricks - Erwan Carlini
 
-<!-- [![SymfonyInsight](https://insight.symfony.com/projects/3e4940fc-7979-4f2e-a18e-20c1e0ffdf34/big.svg)](https://insight.symfony.com/projects/3e4940fc-7979-4f2e-a18e-20c1e0ffdf34) -->
+[![SymfonyInsight](https://insight.symfony.com/projects/00c7f3e9-6c00-46bf-be2e-77835a3f9bd7/big.svg)](https://insight.symfony.com/projects/00c7f3e9-6c00-46bf-be2e-77835a3f9bd7)
 ---------------
 
 ## Starting project
