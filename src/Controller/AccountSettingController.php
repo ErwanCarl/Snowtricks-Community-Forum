@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AccountSettingController extends AbstractController
 {
-    #[Route('/accountsettings', name: 'app_account_settings')]
+    #[Route('/accountsettings', name: 'app_account_settings', methods: ['GET', 'POST'])]
     public function accountSettings(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -48,9 +48,11 @@ class AccountSettingController extends AbstractController
         ]);
     }
 
-    #[Route('/logosettings', name: 'app_logo_settings')]
+    #[Route('/logosettings', name: 'app_logo_settings', methods: ['POST'])]
     public function logoSettings(Request $request, UserRepository $userRepository, FormHandler $formHandler): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $logo = $request->get('logo');
         if($formHandler->logoCheck($logo) === false) {
             return $this->redirectToRoute('app_account_settings');

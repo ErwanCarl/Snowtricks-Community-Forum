@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class RegistrationController extends AbstractController
 {
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerService $mailerService): Response
     {
         /** @var \App\Entity\User $isUser */
@@ -42,6 +42,7 @@ class RegistrationController extends AbstractController
 
             $accountKey = base_convert(hash('sha256', time() . mt_rand()), 16, 36);
             $user->setAccountKey($accountKey);
+            $user->setLogo('user.png');
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -59,7 +60,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/accountvalidation/{accountKey}', name: 'app_account_validation')]
+    #[Route('/accountvalidation/{accountKey}', name: 'app_account_validation', methods: ['GET', 'POST'])]
     public function verifyAccountEmail(string $accountKey, UserRepository $userRepository) : Response
     {
         $user = $userRepository->findOneByAccountKey($accountKey);

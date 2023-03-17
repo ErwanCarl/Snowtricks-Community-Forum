@@ -23,7 +23,7 @@
 
     <div class="container-fluid" id="snowtrick-index">
         <div class="row row-cols-5">
-            {% for snowtrick in snowtricks %}
+            {% for snowtrick in snowtricks|sort((a, b) => b.creationDate <=> a.creationDate) %}
                 {% set first_pic_trick = snowtrick.pictures|first %}
                 <div class="col snowtrick-card">
                     <div class="snowtrick-pic">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="snowtrick-info">
                         <div class="index-to-new">
-                            <a href="{{ path('app_snowtrick_show', {'id': snowtrick.id, 'slug': snowtrick.slug, 'page': 1}) }}"><i class="bi bi-search"></i>{{ snowtrick.title }}</a>
+                            <a href="{{ path('app_snowtrick_show', {'id': snowtrick.id, 'slug': snowtrick.slug, 'page': 1}) }}"><i class="bi bi-search"></i>{{ snowtrick.title|escape|raw }}</a>
                         </div>
                         {% if app.user == snowtrick.user or is_granted('ROLE_ADMIN') %}
                             <div class="index-action">

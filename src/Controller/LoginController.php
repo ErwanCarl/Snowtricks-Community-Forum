@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')]
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         /** @var \App\Entity\User $user */
@@ -36,11 +36,11 @@ class LoginController extends AbstractController
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
-    public function logout()
+    public function logout() : void
     {
     }
 
-    #[Route('/lostpassword', name: 'app_lost_password')]
+    #[Route('/lostpassword', name: 'app_lost_password', methods: ['GET', 'POST'])]
     public function lostpassword(Request $request, UserRepository $userRepository, MailerService $mailerService): Response
     {
         /** @var \App\Entity\User $isUser */
@@ -53,7 +53,7 @@ class LoginController extends AbstractController
         if ($resetPasswordForm->isSubmitted() && $resetPasswordForm->isValid()) {
             $mail = $resetPasswordForm->get('resetPasswordMail')->getData();
             $user = $userRepository->findOneByMail($mail);
-            if ($user == null) {
+            if (!$user) {
                 $this->addFlash(
                     'success',
                     'Le mail de récupération de mot de passe vous a été envoyé à l\'adresse mail indiquée.'
@@ -79,7 +79,7 @@ class LoginController extends AbstractController
         ]);
     }
 
-    #[Route('/reset-password/{accountKey}', name: 'app_reset_password')]
+    #[Route('/reset-password/{accountKey}', name: 'app_reset_password', methods: ['GET', 'POST'])]
     public function verifyAccountEmail(Request $request, string $accountKey, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher) : Response
     {
         $user = $userRepository->findOneByAccountKey($accountKey);

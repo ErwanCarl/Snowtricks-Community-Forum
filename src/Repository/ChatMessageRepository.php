@@ -41,7 +41,7 @@ class ChatMessageRepository extends ServiceEntityRepository
     }
 
     // return the number of messages linked to a snowtrick
-    public function countChatMessages(Snowtrick $snowtrick)
+    public function countChatMessages(Snowtrick $snowtrick) : mixed
     {
         return $this->createQueryBuilder('c')
             ->select('COUNT(c)')
@@ -50,29 +50,4 @@ class ChatMessageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
-//    /**
-//     * @return ChatMessage[] Returns an array of ChatMessage objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?ChatMessage
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

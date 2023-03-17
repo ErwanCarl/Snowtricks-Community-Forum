@@ -41,7 +41,7 @@ class SnowtrickRepository extends ServiceEntityRepository
     }
 
      // return limited number of snowtricks
-     public function limitedSnowtricks()
+     public function limitedSnowtricks() : mixed
      {
         return $this->createQueryBuilder('c')
             ->orderBy('c.creationDate', 'DESC')
@@ -50,29 +50,4 @@ class SnowtrickRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
      }
-
-//    /**
-//     * @return Snowtrick[] Returns an array of Snowtrick objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Snowtrick
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

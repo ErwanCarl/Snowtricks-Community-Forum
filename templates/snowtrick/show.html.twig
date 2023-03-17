@@ -14,6 +14,11 @@
 
 <div class="container snowtrick-show" id="show-general">
     <div class="snowtrick-title-show">
+        <div class="show-picture">
+            {% set first_pic_trick = snowtrick.pictures|first %}
+            <img src="{{ asset('snowtrick_picture/') }}{{ first_pic_trick.fileName }}"/>
+        </div>
+       
         {% if app.user == snowtrick.user or is_granted('ROLE_ADMIN') %}
             <div class="show-action">
                 <div class="action-bloc">
@@ -30,7 +35,7 @@
             </div>
         {% endif %}
         <div class ="snow-title">
-            <h1>{{ snowtrick.title }}</h1>
+            <h1>{{ snowtrick.title|escape|raw }}</h1>
         </div>
     </div>
     
@@ -83,7 +88,7 @@
     </div>
 
     <div class="content-show">
-        {{ snowtrick.content|raw }}
+        {{ snowtrick.content|escape|raw }}
     </div>
 
     <div class="important-info">
@@ -133,7 +138,7 @@
                             </div>
                             <div class="show-content">
                                 <h6>
-                                    {{ chatMessage.content }}                    
+                                    {{ chatMessage.content|escape }}                    
                                 </h6>
                             </div>
                         </div> 
