@@ -86,10 +86,12 @@
             </div>
         {% endif %}
     </div>
-
+    
+    {% autoescape %}
     <div class="content-show">
-        {{ snowtrick.content|escape }}
+        {{ snowtrick.content|raw }}
     </div>
+    {% endautoescape %}
 
     <div class="important-info">
         <div class="info-cell btn btn-secondary">
