@@ -35,7 +35,7 @@
             </div>
         {% endif %}
         <div class ="snow-title">
-            <h1>{{ snowtrick.title|escape|raw }}</h1>
+            <h1>{{ snowtrick.title|escape }}</h1>
         </div>
     </div>
     
@@ -88,7 +88,7 @@
     </div>
 
     <div class="content-show">
-        {{ snowtrick.content|escape|raw }}
+        {{ snowtrick.content|escape }}
     </div>
 
     <div class="important-info">
