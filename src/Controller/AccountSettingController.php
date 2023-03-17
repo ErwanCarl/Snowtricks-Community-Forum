@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\LogoFormType;
+use App\Service\FormHandler;
 use App\Form\LostPasswordType;
-use Doctrine\ORM\EntityManager;
-use App\Service\FormInputHandler;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,8 +24,6 @@ class AccountSettingController extends AbstractController
 
         $lostPasswordForm = $this->createForm(LostPasswordType::class, $user);
         $lostPasswordForm->handleRequest($request);
-
-        $logoForm = $this->createForm(LogoFormType::class);
         
         if ($lostPasswordForm->isSubmitted() && $lostPasswordForm->isValid()) {
             $user->setPassword(
@@ -49,35 +44,27 @@ class AccountSettingController extends AbstractController
 
         return $this->render('accountsettings/account-settings.html.twig', [
             'user' => $user,
-            'lostPasswordForm' => $lostPasswordForm->createView(),
-            'logoForm' => $logoForm->createView()
+            'lostPasswordForm' => $lostPasswordForm->createView()
         ]);
     }
 
     #[Route('/logosettings', name: 'app_logo_settings')]
-    public function logoSettings(Request $request, LogoFormType $logoForm, UserRepository $userRepository): Response
+    public function logoSettings(Request $request, UserRepository $userRepository, FormHandler $formHandler): Response
     {
-        $logoForm = $this->createForm(LogoFormType::class);
-        $logoForm->handleRequest($request);
-
-        if ($logoForm->isSubmitted() && $logoForm->isValid()) {
-            /** @var \App\Entity\User $user */
-            $user = $this->getUser();
-            $user->setLogo($logoForm->get('logoChoice')->getData());
-
-            $userRepository->save($user, true);
-
-            $this->addFlash(
-                'success',
-                'Votre choix de logo a bien été enregistré.'
-            );
-
+        $logo = $request->get('logo');
+        if($formHandler->logoCheck($logo) === false) {
             return $this->redirectToRoute('app_account_settings');
         }
 
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $user->setLogo($logo);
+
+        $userRepository->save($user, true);
+
         $this->addFlash(
-            'danger',
-            'L\'enregitrement de votre choix a échoué, veuillez retenter.'
+            'success',
+            'Votre choix de logo a bien été enregistré.'
         );
 
         return $this->redirectToRoute('app_account_settings');
