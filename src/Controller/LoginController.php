@@ -53,7 +53,7 @@ class LoginController extends AbstractController
         if ($resetPasswordForm->isSubmitted() && $resetPasswordForm->isValid()) {
             $mail = $resetPasswordForm->get('resetPasswordMail')->getData();
             $user = $userRepository->findOneByMail($mail);
-            if ($user == null) {
+            if (!$user) {
                 $this->addFlash(
                     'success',
                     'Le mail de récupération de mot de passe vous a été envoyé à l\'adresse mail indiquée.'

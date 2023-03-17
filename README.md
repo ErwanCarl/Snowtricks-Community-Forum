@@ -8,25 +8,25 @@
 
 ### Requirements
 
-- PHP : 8.1.0
-- MySQL 8.0.30
+- PHP : ⩾ 8.1.0 
+- MySQL ⩾ 8.0.30
 - Composer
 - Symfony 6.2
+- NPM 
 
 ### Packages Installation
 
 First, clone project and place the project in a new folder, then install all composer packages with command line : ``composer install``.  
 You can use ``composer update`` to update the libraries used in the project.
 
-### Import database
+### Database datas
 
 First, you will need to create your database Snowtricks and change the value of DATABASE_URL in the file .env to match with your database parameters.  
-To get all necessaries datas, you can use two differents ways.  
-* Solution 1 : in your PhpMyAdmin, import snowtrick-db.sql in your new database folder from root directory.  
-* Solution 2 :  
- `* Run ``symfony console doctrine:database:create`` in command to create your database  
- `* Run ``symfony console doctrine:database:migrate`` in command to create your tables in your DB from the entities files  
-  `* Run ``php bin/console doctrine:fixtures:load`` to get the basic datas of this project  
+To get all necessaries datas :  
+* Run ``symfony console doctrine:database:create`` in command to create your database  
+* Run ``symfony console doctrine:migration:migrate`` in command to create your tables in your DB from the entities files  
+* Run ``php bin/console doctrine:fixtures:load`` to get the basic datas of this project  
+* Run ``npm run watch`` to use node for dynamic features used in the project
 
 ### Mailer configuration settings  
 
@@ -41,4 +41,4 @@ If you want to get all access in the project, you can give yourselves the admin 
 
 * Symfony  
 * Doctrine  
-* Twig  
+* Twig 

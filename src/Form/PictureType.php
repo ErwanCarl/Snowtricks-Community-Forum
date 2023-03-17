@@ -21,13 +21,13 @@ class PictureType extends AbstractType
                 'attr' => ['class' => 'snowtrick_pic'],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1M',
+                        'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/png',
                             'image/jpg',
                             'image/jpeg'
                         ],
-                        'mimeTypesMessage' => 'Veuillez ajouter une image au format jpg ou png d\'un maximum de 1Mo.',
+                        'mimeTypesMessage' => 'Veuillez ajouter une image au format jpg ou png d\'un maximum de 5Mo.',
                     ]),
                     new NotNull(message: 'Veuillez télécharger au moins une image pour la figure.', groups: ['new'])
                 ],

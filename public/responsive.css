@@ -29,6 +29,7 @@
         }
 
         .important-info {
+            margin: auto;
             display: grid;
             grid-template-columns: repeat(1, 1fr);
         }
@@ -46,11 +47,21 @@
         }
 
         .content-show, .comment-bloc {
-            width: 100%;
+            width: 90%;
         }
 
         .content-show {
             margin-bottom: 40px;
+        }
+
+        .snow-title {
+            left: 30%;
+        }
+
+        .show-action {
+            background-color: white;
+            top: 3%;
+            right: 3%;
         }
 
         .comment-input {
@@ -86,6 +97,7 @@
         }
 
         .resp-media-bloc {
+            margin-top: 30px;
             display: block;
         }
 
@@ -178,8 +190,8 @@
             width: 90%;
         }
 
-        .copyright p {
-            padding: 0 3px;
+        .copyright {
+            display: none;
         }
 
         /* ------------------ Pagination -------------------- */
@@ -219,6 +231,21 @@
         margin-top: 20px;
     }
 
+    #snowtrick_trickGroup {
+        width: 50%;
+    }
+
+    .hidden-block {
+        margin: 10px auto 20px auto;
+    }
+
+    .edit-page > form > #trick_pictures > div > div > div > div > div.form-group > button {
+        width: 40px;
+    }
+
+    .edit-page > form > #trick_pictures > div.container-fluid.pic-container > div > div {
+        padding: 0;
+    }
 }
 
 /* -------------------------------------------   Tablette ----------------------------------------------------- */
@@ -348,5 +375,17 @@
 
         body > div.container.edit-page > a, .edit-page {
             margin-top: 30px;
+        }
+
+        #snowtrick_trickGroup {
+            width: 40%;
+        }
+
+        .hidden-block {
+            margin: 50px auto 10px auto;
+        }
+        
+        .edit-page > form > #trick_pictures > div.container-fluid.pic-container > div > div {
+            padding: 0;
         }
 }

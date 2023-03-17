@@ -10,7 +10,7 @@ class FormHandler extends AbstractController
     {
         $logoArray = ['user.png','user-2.png','bonsai.png','doc.png','drawing.png','epee.png','flower.png','globe.png','heart.png','horla.png'];
 
-        if ($logo == null) {
+        if (!$logo) {
             $this->addFlash(
                 'danger',
                 'Vous devez choisir un logo.'

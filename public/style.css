@@ -176,7 +176,7 @@ body > div.container.snowtrick-new > form > div.form-button {
 
 .content-show {
     margin: 0 auto 80px auto; 
-    width: 70%;
+    width: 80%;
 }
 
 #no_comment {
@@ -274,6 +274,7 @@ body > div.container.snowtrick-new, .container.snowtrick-show, .form-button {
 }
 
 .show-action {
+    background-color: white;
     display:flex;
     justify-content: end;
     margin-top: 20px;
@@ -297,6 +298,29 @@ body > div.container.snowtrick-new, .container.snowtrick-show, .form-button {
     border: 2px solid black;
     margin-top: 80px;
     padding: 20px;
+}
+
+.snowtrick-title-show {
+    position: relative;
+}
+
+.snow-title {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+
+.show-picture img {
+    z-index: -5;
+    object-fit: fill;
+    width: 100%;
+}
+
+.show-action {
+
+    position: absolute;
+    top: 1%;
+    right: 2%;
 }
 
 .action-bloc {
@@ -345,6 +369,7 @@ body > div.container.snowtrick-show > div.snowtrick-title-show > div.show-action
 }
 
 .author-pic img {
+    padding: 2px;
     position: relative;
     top: 50%; 
     transform: translateY(-50%);
@@ -386,8 +411,8 @@ body > div.container.snowtrick-show > div.snowtrick-title-show > div.show-action
 }
 
 .hidden-block img, .hidden-block {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
 }
 
 .hidden-block {
@@ -429,6 +454,19 @@ body > div.container.snowtrick-show > div.comment-input > div > form > div > div
 
 .edit-page #snowtrick_valider {
     margin: 60px auto 0 auto;
+}
+
+#snowtrick_trickGroup {
+    width: 20%;
+}
+
+.edit-page > form > #trick_pictures > div > div > div > div > div.form-group {
+    position: relative;
+}
+
+.edit-page > form > #trick_pictures > div > div > div > div > div.form-group > button {
+    position: absolute;
+    top: 25%;
 }
 
 body > div.container.edit-page > form:nth-child(3) > div.form-button > div, body > div.container.edit-page > form:nth-child(6) {

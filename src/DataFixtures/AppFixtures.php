@@ -212,7 +212,6 @@ class AppFixtures extends Fixture
         
         $snowtricks = $this->getSnowtrickData();
         foreach ($snowtricks as [$title, $author, $content, $trickGroupX, $pictureName, $videoUrl, $videoId]) {
-            
             $picture = new Picture();
             $video = new Video();
             $snowtrick = new Snowtrick();
@@ -242,8 +241,7 @@ class AppFixtures extends Fixture
             $manager->persist($snowtrick);
             $manager->persist($picture);
             $manager->persist($video);
-
-            $manager->flush();
         }
+        $manager->flush();
     } 
 }

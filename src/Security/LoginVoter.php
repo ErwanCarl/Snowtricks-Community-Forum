@@ -38,7 +38,7 @@ class LoginVoter extends Voter
 
     private function canAccess(?User $user): bool
     {
-        if($user == null) {
+        if(!$user) {
             return true;
         }
     }

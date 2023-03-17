@@ -16,7 +16,7 @@ class UserChecker extends AbstractController implements UserCheckerInterface
             throw new CustomUserMessageAccountStatusException('Problème d\'identifiants incorrects.');
         }
 
-        if ($user->isVerified() == false) {
+        if ($user->isVerified() === false) {
             throw new CustomUserMessageAccountStatusException('Votre compte n\'est pas encore validé, veuillez vérifier vos mails pour l\'activer.');
         }
     }

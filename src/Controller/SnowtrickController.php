@@ -108,7 +108,7 @@ class SnowtrickController extends AbstractController
                 'Votre message a bien été envoyé au chat.'
             );
 
-            return $this->redirectToRoute('app_snowtrick_show', ['slug' => $snowtrick->getSlug(), 'id' => $snowtrick->getId(), 'page' => 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_snowtrick_show', ['_fragment' => 'comment_anchor', 'slug' => $snowtrick->getSlug(), 'id' => $snowtrick->getId(), 'page' => 1], Response::HTTP_SEE_OTHER);
         } elseif ($chatMessageForm->isSubmitted() && !$chatMessageForm->isValid()) {
             $this->addFlash(
                 'danger',
@@ -169,9 +169,11 @@ class SnowtrickController extends AbstractController
         $snowtrick = $snowtrickRepository->findOneById($id);
         $this->denyAccessUnlessGranted('delete', $snowtrick);
         
-        $csrfVerification = 'delete'.$snowtrick->getId();
-
-        if ($this->isCsrfTokenValid($csrfVerification, $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(sprintf('delete%s', $snowtrick->getId()), $request->request->get('_token'))) {
+            $this->addFlash(
+                'success',
+                'La figure a bien été supprimée.'
+            );
             $snowtrickRepository->remove($snowtrick, true);
         }
 
