@@ -739,7 +739,7 @@ body > div.container.edit-page > form:nth-child(6) button, #snowtrick_valider {
 /* ------------------ Error pages -------------------- */
 
 .error-page {
-    margin: 80px auto;
+    margin: 120px auto;
 }
 
 .back-home-error a {

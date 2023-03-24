@@ -81,12 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\File(
-        maxSize: '1M',
-        extensions: ['jpg','jpeg','png'],
-        maxSizeMessage: 'L\'image ne doit pas excéder 1 Mo',
-        extensionsMessage: 'Le format n\'est pas valide, les formats autorisés sont JPG, JPEG et PNG.'
-    )]
     private ?string $logo = null;
 
     #[ORM\Column(type: 'json')]
